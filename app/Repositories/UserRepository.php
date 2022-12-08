@@ -12,7 +12,7 @@ class UserRepository extends BaseRepository {
     }
 
     public function getAllUsers() {
-        return $this->model->orderBy('name')->get();
+        return $this->model->where('id', '>=' , 0);
     }
 
     public function showUserById($id) {

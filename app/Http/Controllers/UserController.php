@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Users;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -24,7 +25,7 @@ class UserController extends Controller
     public function listOfUsers(UserRepository $userRepository)
     {
         $users = $userRepository->getAllUsers();
-        return view('users.index', ['users' => $users, 'title' => 'Lista userów']);
+        return view('users.index', ['users' => $users->paginate(3)]);
     }
     public function index()
     {
