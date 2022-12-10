@@ -29,7 +29,6 @@ class UserController extends Controller
     }
     public function index()
     {
-       
     }
 
     /**
@@ -95,6 +94,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $flight = Users::find($id);
+        $flight->delete();
+        return response()->json([
+            'success' => true
+        ]);
     }
 }
