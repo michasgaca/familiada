@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Users;
-use App\Repositories\UserRepository;
+use App\Models\ToDoList;
+use App\Repositories\ToDoRepository;
 
-class UserController extends Controller
+class ToDoController extends Controller
 {
-
     protected $request;
     /**
      * Display a listing of the resource.
@@ -21,13 +20,15 @@ class UserController extends Controller
         $this->request = $request;
     }
 
-    public function listOfUsers(UserRepository $userRepository)
-    {
-        $users = $userRepository->getAllUsers();
-        return view('users.index', ['users' => $users->paginate(3)]);
+    public function listOfToDos(ToDoRepository $toDoRepository) {
+        
+        $toDoLists = $toDoRepository->getAllToDos();
+        return view('toDoLists.index', ['toDoLists' => $toDoLists->paginate(3)]);
     }
+
     public function index()
     {
+        //
     }
 
     /**
@@ -37,7 +38,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('toDoLists.create');
     }
 
     /**
@@ -48,7 +49,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $toDoList = new ToDoList($request->all());
+        $toDoList->save();
+        return redirect()->action('TodoController@listOfToDos');
     }
 
     /**
@@ -68,9 +71,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ToDoRepository $toDoRepository, $id)
     {
-        //
+        $toDo = $toDoRepository->showToDoById($id);
+        return view('toDoLists.edit', ['toDo' => $toDo]);
     }
 
     /**
@@ -80,9 +84,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ToDoList $toDo)
     {
-        //
+        $toDo->fill($request->all());
+        $toDo->save();
+        return redirect()->action('TodoController@listOfToDos');
     }
 
     /**
@@ -93,8 +99,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = Users::find($id);
-        $user->delete();
+        $toDo = ToDoList::find($id);
+        $toDo->delete();
         return response()->json([
             'success' => true
         ]);

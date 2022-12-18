@@ -19,6 +19,12 @@ Route::get('/', function () {
 });
 
 Route::get('/users/list', 'UserController@listOfUsers')->middleware('auth');
+Route::get('/users/todolist', 'TodoController@listOfToDos')->name('toDoLists.listOfToDos')->middleware('auth');
+Route::get('/users/todolist/create', 'TodoController@create')->name('toDoLists.create')->middleware('auth');
+Route::post('/users/todolist', 'TodoController@store')->name('toDoLists.store')->middleware('auth');
+Route::get('/users/todolist/edit/{id}', 'TodoController@edit')->name('toDoLists.edit')->middleware('auth');
+Route::post('/users/todolist/{toDoLists}', 'TodoController@update')->name('toDoLists.update')->middleware('auth');
+Route::delete('/users/todolist/{id}', 'TodoController@destroy')->name('toDoLists.destroy')->middleware('auth');
 
 Route::delete('/users/{id}', 'UserController@destroy')->middleware('auth');
 
