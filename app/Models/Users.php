@@ -46,4 +46,9 @@ class Users extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function toDoList()
+    {
+        return $this->hasOne(ToDoList::class, 'id');
+    }
 }

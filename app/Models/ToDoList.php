@@ -22,9 +22,15 @@ class ToDoList extends Model
      */
     protected $fillable = [
         'day',
+        'user_id',
         'description',
         'note',
         'priority',
         'timeStamp',
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(Users::class, 'user_id');
+    }
 }

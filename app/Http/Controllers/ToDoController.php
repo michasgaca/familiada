@@ -49,7 +49,13 @@ class ToDoController extends Controller
      */
     public function store(Request $request)
     {
-        $toDoList = new ToDoList($request->all());
+        // $toDoList = new ToDoList($request->all());
+        $toDoList = new ToDoList();
+        $toDoList->user_id = $request->input('user_id');
+        $toDoList->day = $request->input('day');
+        $toDoList->description = $request->input('description');
+        $toDoList->note = $request->input('note');
+        $toDoList->priority = $request->input('priority');
         $toDoList->save();
         return redirect()->action('TodoController@listOfToDos');
     }
